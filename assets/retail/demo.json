@@ -1,0 +1,316 @@
+{
+  "products": [
+    {
+      "id": "retail-sample-1-1",
+      "name": "大發 鱈魚絲",
+      "spec": "120克",
+      "sku": "",
+      "filename": "sample-1-1.png",
+      "path": "assets/retail/sample-1-1.png",
+      "imageWidth": 1104,
+      "imageHeight": 1254,
+      "aliases": []
+    },
+    {
+      "id": "retail-sample-2-1",
+      "name": "Kalbarri 無鹽碧根果",
+      "spec": "350克",
+      "sku": "",
+      "filename": "sample-2-1.png",
+      "path": "assets/retail/sample-2-1.png",
+      "imageWidth": 737,
+      "imageHeight": 1249,
+      "aliases": []
+    },
+    {
+      "id": "retail-sample-3-1",
+      "name": "PANDO 蜂蜜味／牛奶味 長崎蛋糕",
+      "spec": "12件裝",
+      "sku": "",
+      "filename": "sample-3-1.png",
+      "path": "assets/retail/sample-3-1.png",
+      "imageWidth": 710,
+      "imageHeight": 1157,
+      "aliases": []
+    },
+    {
+      "id": "retail-sample-3-2",
+      "name": "PANDO 蜂蜜味／牛奶味 長崎蛋糕",
+      "spec": "12件裝",
+      "sku": "",
+      "filename": "sample-3-2.png",
+      "path": "assets/retail/sample-3-2.png",
+      "imageWidth": 748,
+      "imageHeight": 1187,
+      "aliases": []
+    },
+    {
+      "id": "retail-sample-4-1",
+      "name": "Yuka 提拉米蘇朱古力（各款）",
+      "spec": "",
+      "sku": "",
+      "filename": "sample-4-1.png",
+      "path": "assets/retail/sample-4-1.png",
+      "imageWidth": 998,
+      "imageHeight": 1420,
+      "aliases": []
+    },
+    {
+      "id": "retail-sample-4-2",
+      "name": "Yuka 提拉米蘇朱古力（各款）",
+      "spec": "",
+      "sku": "",
+      "filename": "sample-4-2.png",
+      "path": "assets/retail/sample-4-2.png",
+      "imageWidth": 1016,
+      "imageHeight": 1406,
+      "aliases": []
+    },
+    {
+      "id": "retail-sample-5-1",
+      "name": "樂事 黑松露味／酸忌廉洋蔥味薯片",
+      "spec": "90克",
+      "sku": "",
+      "filename": "sample-5-1.png",
+      "path": "assets/retail/sample-5-1.png",
+      "imageWidth": 919,
+      "imageHeight": 1480,
+      "aliases": []
+    },
+    {
+      "id": "retail-sample-5-2",
+      "name": "樂事 黑松露味／酸忌廉洋蔥味薯片",
+      "spec": "90克",
+      "sku": "",
+      "filename": "sample-5-2.png",
+      "path": "assets/retail/sample-5-2.png",
+      "imageWidth": 866,
+      "imageHeight": 1494,
+      "aliases": []
+    },
+    {
+      "id": "retail-sample-6-1",
+      "name": "不倒翁 即食白飯4件裝／ 即食五穀米飯3件裝",
+      "spec": "",
+      "sku": "",
+      "filename": "sample-6-1.png",
+      "path": "assets/retail/sample-6-1.png",
+      "imageWidth": 824,
+      "imageHeight": 837,
+      "aliases": []
+    },
+    {
+      "id": "retail-sample-6-2",
+      "name": "不倒翁 即食白飯4件裝／ 即食五穀米飯3件裝",
+      "spec": "",
+      "sku": "",
+      "filename": "sample-6-2.png",
+      "path": "assets/retail/sample-6-2.png",
+      "imageWidth": 828,
+      "imageHeight": 657,
+      "aliases": []
+    },
+    {
+      "id": "retail-sample-7-1",
+      "name": "廣昌隆 減鹽／頂級臘腸皇",
+      "spec": "250克",
+      "sku": "",
+      "filename": "sample-7-1.png",
+      "path": "assets/retail/sample-7-1.png",
+      "imageWidth": 606,
+      "imageHeight": 966,
+      "aliases": []
+    },
+    {
+      "id": "retail-sample-7-2",
+      "name": "廣昌隆 減鹽／頂級臘腸皇",
+      "spec": "250克",
+      "sku": "",
+      "filename": "sample-7-2.png",
+      "path": "assets/retail/sample-7-2.png",
+      "imageWidth": 606,
+      "imageHeight": 966,
+      "aliases": []
+    },
+    {
+      "id": "retail-sample-8-1",
+      "name": "UCC 金鑽黑咖啡－香醇濃郁",
+      "spec": "275毫升",
+      "sku": "",
+      "filename": "sample-8-1.png",
+      "path": "assets/retail/sample-8-1.png",
+      "imageWidth": 481,
+      "imageHeight": 1001,
+      "aliases": []
+    },
+    {
+      "id": "retail-sample-9-1",
+      "name": "INTENSO 大師即溶咖啡",
+      "spec": "100克",
+      "sku": "",
+      "filename": "sample-9-1.png",
+      "path": "assets/retail/sample-9-1.png",
+      "imageWidth": 455,
+      "imageHeight": 958,
+      "aliases": []
+    },
+    {
+      "id": "retail-sample-10-1",
+      "name": "日本盛 生原酒純米大吟釀罐裝",
+      "spec": "200毫升",
+      "sku": "",
+      "filename": "sample-10-1.png",
+      "path": "assets/retail/sample-10-1.png",
+      "imageWidth": 159,
+      "imageHeight": 400,
+      "aliases": []
+    }
+  ],
+  "goods": [
+    {
+      "name": "大發\n鱈魚絲",
+      "spec": "120克",
+      "price": "39.9",
+      "quantity": 2,
+      "originalPrice": "23",
+      "originalPriceMax": "",
+      "originalStrike": true,
+      "averageRounding": "integer",
+      "productIds": [
+        "retail-sample-1-1"
+      ],
+      "badge": ""
+    },
+    {
+      "name": "Kalbarri\n無鹽碧根果",
+      "spec": "350克",
+      "price": "62.9",
+      "quantity": 1,
+      "originalPrice": "72",
+      "originalPriceMax": "",
+      "originalStrike": true,
+      "averageRounding": "tenth",
+      "productIds": [
+        "retail-sample-2-1"
+      ],
+      "badge": ""
+    },
+    {
+      "name": "PANDO\n蜂蜜味／牛奶味\n長崎蛋糕",
+      "spec": "12件裝",
+      "price": "36",
+      "quantity": 2,
+      "originalPrice": "22",
+      "originalPriceMax": "",
+      "originalStrike": true,
+      "averageRounding": "integer",
+      "productIds": [
+        "retail-sample-3-1",
+        "retail-sample-3-2"
+      ],
+      "badge": ""
+    },
+    {
+      "name": "Yuka\n提拉米蘇朱古力（各款）",
+      "spec": "",
+      "price": "29.9",
+      "quantity": 1,
+      "originalPrice": "38.9",
+      "originalPriceMax": "",
+      "originalStrike": true,
+      "averageRounding": "tenth",
+      "productIds": [
+        "retail-sample-4-1",
+        "retail-sample-4-2"
+      ],
+      "badge": ""
+    },
+    {
+      "name": "樂事\n黑松露味／酸忌廉洋蔥味薯片",
+      "spec": "90克",
+      "price": "19.9",
+      "quantity": 2,
+      "originalPrice": "14",
+      "originalPriceMax": "",
+      "originalStrike": true,
+      "averageRounding": "integer",
+      "productIds": [
+        "retail-sample-5-1",
+        "retail-sample-5-2"
+      ],
+      "badge": ""
+    },
+    {
+      "name": "不倒翁\n即食白飯4件裝／\n即食五穀米飯3件裝",
+      "spec": "",
+      "price": "50",
+      "quantity": 2,
+      "originalPrice": "29.9",
+      "originalPriceMax": "33",
+      "originalStrike": true,
+      "averageRounding": "integer",
+      "productIds": [
+        "retail-sample-6-1",
+        "retail-sample-6-2"
+      ],
+      "badge": ""
+    },
+    {
+      "name": "廣昌隆\n減鹽／頂級臘腸皇",
+      "spec": "250克",
+      "price": "39.9",
+      "quantity": 1,
+      "originalPrice": "45",
+      "originalPriceMax": "",
+      "originalStrike": true,
+      "averageRounding": "tenth",
+      "productIds": [
+        "retail-sample-7-1",
+        "retail-sample-7-2"
+      ],
+      "badge": "新"
+    },
+    {
+      "name": "UCC\n金鑽黑咖啡－香醇濃郁",
+      "spec": "275毫升",
+      "price": "23",
+      "quantity": 3,
+      "originalPrice": "12",
+      "originalPriceMax": "",
+      "originalStrike": true,
+      "averageRounding": "tenth",
+      "productIds": [
+        "retail-sample-8-1"
+      ],
+      "badge": ""
+    },
+    {
+      "name": "INTENSO\n大師即溶咖啡",
+      "spec": "100克",
+      "price": "25.9",
+      "quantity": 1,
+      "originalPrice": "28",
+      "originalPriceMax": "",
+      "originalStrike": true,
+      "averageRounding": "tenth",
+      "productIds": [
+        "retail-sample-9-1"
+      ],
+      "badge": ""
+    },
+    {
+      "name": "日本盛\n生原酒純米大吟釀罐裝",
+      "spec": "200毫升",
+      "price": "55",
+      "quantity": 2,
+      "originalPrice": "39",
+      "originalPriceMax": "",
+      "originalStrike": true,
+      "averageRounding": "tenth",
+      "productIds": [
+        "retail-sample-10-1"
+      ],
+      "badge": "新"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+name: marketing-poster
+
+services:
+  web:
+    image: bestmart-poster:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "6695:80"
+    restart: unless-stopped
+    depends_on:
+      cutout:
+        condition: service_healthy
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  cutout:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?請先執行 python3 scripts/setup_admin.py}
+      MSSQL_HOST: ${MSSQL_HOST:-}
+      MSSQL_PORT: ${MSSQL_PORT:-1433}
+      MSSQL_USERNAME: ${MSSQL_USERNAME:-}
+      MSSQL_PASSWORD: ${MSSQL_PASSWORD:-}
+      MSSQL_DATABASE: ${MSSQL_DATABASE:-pos6}
+      POS_BARCODE_COLUMN: ${POS_BARCODE_COLUMN:-Barcode}
+      PRODUCT_PHOTO_STREET_ROOT: /product-photos/street
+      PRODUCT_PHOTO_WAREHOUSE_ROOT: /product-photos/warehouse
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      # 內聯網登入：密碼只轉交一次換 JWT，角色來自 content_permissions 代碼。
+      INTRANET_AUTH_URL: ${INTRANET_AUTH_URL:-http://192.168.1.246:8082}
+      POSTER_ROLE_CODES_ADMIN: ${POSTER_ROLE_CODES_ADMIN:-poster_admin}
+      POSTER_ROLE_CODES_MARKETING: ${POSTER_ROLE_CODES_MARKETING:-poster_marketing}
+      POSTER_ROLE_CODES_PURCHASER: ${POSTER_ROLE_CODES_PURCHASER:-poster_purchaser}
+      POSTER_ROLE_CODES_VIEWER: ${POSTER_ROLE_CODES_VIEWER:-poster_viewer}
+      POSTER_CONFIRM_BY_OTHER: ${POSTER_CONFIRM_BY_OTHER:-false}
+      # 全自動換商品的 AI 視覺模型（Azure OpenAI）；未設定時自動流程照常運作，只略過 AI 檢查與校對。
+      AZURE_OPENAI_ENDPOINT: ${AZURE_OPENAI_ENDPOINT:-}
+      AZURE_OPENAI_API_KEY: ${AZURE_OPENAI_API_KEY:-}
+      AZURE_OPENAI_DEPLOYMENT: ${AZURE_OPENAI_DEPLOYMENT:-gpt-6.1-sol}
+      AZURE_OPENAI_API_VERSION: ${AZURE_OPENAI_API_VERSION:-2024-12-01-preview}
+    volumes:
+      - cutout-models:/models
+      - poster-data:/data
+      - type: bind
+        source: "${PRODUCT_PHOTO_STREET_HOST_PATH:-/mnt/244/MKT/Public Share/Product Photo Server/Server_product}"
+        target: /product-photos/street
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: "${PRODUCT_PHOTO_WAREHOUSE_HOST_PATH:-/mnt/244/Warehouse/Public Share/01 Products_Photo}"
+        target: /product-photos/warehouse
+        read_only: true
+        bind:
+          create_host_path: false
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  cutout-models:
+  poster-data:

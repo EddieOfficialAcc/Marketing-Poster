@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8"><meta http-equiv="refresh" content="0;url=/#tasks">
+  <title>海報製作流程 · 優品360</title>
+</head>
+<body>
+  <p>海報製作流程已整合到工作台，正在前往… <a href="/#tasks">如未自動跳轉請點此</a></p>
+  <script>
+    const hash = location.hash && location.hash !== '#' ? location.hash : '';
+    const legacy = /^#[0-9a-f-]{36}$/i.test(hash) ? '#task=' + hash.slice(1) : hash || '#tasks';
+    location.replace('/' + legacy);
+  </script>
+</body>
+</html>

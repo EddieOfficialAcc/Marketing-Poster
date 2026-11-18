@@ -1,0 +1,90 @@
+{
+  "products": [
+    {
+      "id": "sample-rice-front",
+      "filename": "NP-103801.jpeg",
+      "name": "秋田小町米",
+      "angle": "米袋正面近景",
+      "aliases": [
+        "秋田米",
+        "秋田小町米",
+        "Akita Komachi Rice"
+      ],
+      "sku": "",
+      "spec": "1kg",
+      "path": "assets/samples/rice-front.jpg",
+      "source": "sample",
+      "assetVersion": 1
+    },
+    {
+      "id": "sample-rice-alt",
+      "filename": "98367022513.jpeg",
+      "name": "秋田小町米",
+      "angle": "米袋正面全景",
+      "aliases": [
+        "秋田米",
+        "秋田小町米",
+        "Akita Komachi Rice"
+      ],
+      "sku": "",
+      "spec": "1kg",
+      "path": "assets/samples/rice-alt.jpg",
+      "source": "sample",
+      "assetVersion": 1
+    },
+    {
+      "id": "sample-noodles-front",
+      "filename": "089686095784 A.jpeg",
+      "name": "Indomie Mi Goreng 即食麵",
+      "angle": "正面",
+      "aliases": [
+        "营多捞面",
+        "營多撈麵",
+        "方便面",
+        "即食麵",
+        "Indomie"
+      ],
+      "sku": "",
+      "spec": "85g × 5包",
+      "path": "assets/samples/noodles-front.jpg",
+      "source": "sample",
+      "assetVersion": 1
+    },
+    {
+      "id": "sample-noodles-side",
+      "filename": "089686095784 B.jpeg",
+      "name": "Indomie Mi Goreng 即食麵",
+      "angle": "斜側面",
+      "aliases": [
+        "营多捞面",
+        "營多撈麵",
+        "方便面",
+        "即食麵",
+        "Indomie"
+      ],
+      "sku": "",
+      "spec": "85g × 5包",
+      "path": "assets/samples/noodles-side.jpg",
+      "source": "sample",
+      "assetVersion": 1
+    },
+    {
+      "id": "sample-noodles-back",
+      "filename": "089686095784 C.jpeg",
+      "name": "Indomie Mi Goreng 即食麵",
+      "angle": "背面資料圖",
+      "aliases": [
+        "营多捞面",
+        "營多撈麵",
+        "方便面",
+        "即食麵",
+        "Indomie"
+      ],
+      "sku": "",
+      "spec": "85g × 5包",
+      "path": "assets/samples/noodles-back.jpg",
+      "source": "sample",
+      "assetVersion": 1
+    }
+  ]
+}

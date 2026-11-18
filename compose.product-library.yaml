@@ -1,0 +1,4 @@
+# Compatibility file: photo mounts are now included in compose.yaml.
+# Existing commands using both -f arguments continue to work.
+services:
+  cutout: {}

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>海報製作流程 · 優品360</title><link rel="stylesheet" href="styles.css">
+</head>
+<body hidden>
+  <header class="topbar">
+    <a class="brand" href="./#tasks"><span class="brand-mark">360°</span><span>優品360<small>營銷海報工作台</small></span></a>
+    <span id="admin-name" class="local-badge"></span><button id="logout">退出登入</button>
+  </header>
+  <main>
+    <!-- 任務列表與編輯器分開顯示：body.view-tasks 只顯示任務；市場部開啟任務後切到 body.view-editor。 -->
+    <section id="tasks-view" class="wf-view">
+      <div class="wf-heading">
+        <div>
+          <h1>海報製作流程</h1>
+          <p class="wf-roles" id="role-hint"></p>
+        </div>
+        <div class="wf-actions">
+          <button id="wf-summary" class="wf-btn wf-teal" type="button"><span aria-hidden="true">▦</span> 總結</button>
+          <button id="wf-access" class="button" type="button" hidden>權限對應</button>
+          <a id="wf-export" class="wf-btn wf-green" href="/api/workflow/export"><span aria-hidden="true">⇩</span> 匯出報表</a>
+          <button id="wf-free-edit" class="button" type="button" hidden title="開啟上次編輯的項目；可在編輯器「＋ 新建項目」建立不屬於任務的海報">開啟編輯器</button>
+          <button id="wf-new" class="wf-btn wf-blue" type="button" hidden><span aria-hidden="true">＋</span> 上傳商品 Excel</button>
+        </div>
+      </div>
+      <nav class="wf-tabs" role="tablist">
+        <button role="tab" type="button" data-wf-tab="processing" aria-selected="true"><span class="wf-tab-icon">ⓘ</span> 處理中 <b data-count="processing"></b></button>
+        <button role="tab" type="button" data-wf-tab="pending" aria-selected="false"><span class="wf-tab-icon">✓</span> 等待確認 <b data-count="pending"></b></button>
+        <button role="tab" type="button" data-wf-tab="done" aria-selected="false"><span class="wf-tab-icon">◷</span> 已完成 <b data-count="done"></b></button>
+      </nav>
+      <div class="wf-toolbar">
+        <label class="wf-mine"><input type="checkbox" data-filter-mine> 只看待我處理 <b id="wf-mine-count"></b></label>
+        <p class="wf-legend"><span class="wf-priority wf-high"></span>高（1天內）<span class="wf-priority wf-normal"></span>中（3天內）<span class="wf-priority wf-low"></span>低（7天內）</p>
+      </div>
+      <div class="wf-table-wrap">
+        <table class="wf-table">
+          <thead>
+            <tr><th>編號</th><th>海報</th><th>活動名稱</th><th>活動時間</th><th>狀態</th><th>審批進度</th><th>提交人（採購）</th><th>市場部負責人</th><th>確認人</th><th>最後更新</th><th>操作</th></tr>
+            <tr class="wf-filters">
+              <td><input data-filter="code" placeholder="搜尋…" aria-label="搜尋編號"></td><td></td>
+              <td><input data-filter="name" placeholder="搜尋活動名稱…" aria-label="搜尋活動名稱"></td>
+              <td><input data-filter="period" placeholder="如 2026-11" aria-label="搜尋活動時間"></td>
+              <td><select data-filter="status" aria-label="篩選狀態"><option value="">所有狀態</option></select></td><td></td>
+              <td><input data-filter="created_by_name" placeholder="搜尋…" aria-label="搜尋提交人"></td>
+              <td><input data-filter="assignee_name" placeholder="搜尋…" aria-label="搜尋負責人"></td>
+              <td><input data-filter="confirmed_by_name" placeholder="搜尋…" aria-label="搜尋確認人"></td><td></td><td></td>
+            </tr>
+          </thead>
+          <tbody id="wf-rows"><tr><td colspan="11" class="wf-empty">正在載入…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    <div id="studio-view">
+    <section id="studio-workflow-bar" class="studio-workflow-bar" hidden>
+      <button id="back-to-tasks" type="button">← 返回任務列表</button>
+      <div class="studio-workflow-meta">
+        <strong id="studio-workflow-name">海報編輯</strong>
+        <span id="studio-workflow-status" class="hint" role="status"></span>
+        <span id="studio-workflow-campaign" class="hint"></span>
+      </div>
+      <div class="studio-workflow-actions">
+        <button id="studio-generate" type="button">生成海報預覽</button>
+        <button id="studio-confirm" class="primary" type="button" hidden>確認海報</button>
+      </div>
+      <div id="studio-sheet-update" class="studio-sheet-update" role="alert" hidden>
+        <span id="studio-sheet-text"></span>
+        <button id="studio-sheet-reimport" class="primary" type="button">重新匯入活動表</button>
+        <button id="studio-sheet-dismiss" type="button">已核對，不需匯入</button>
+      </div>
+    </section>
+    <section class="heading editor-only"><div><div class="eyebrow">POSTER STUDIO</div><h1>讓每一張海報，準確呈現優惠。</h1><p>加商品、確認下載，兩步完成海報。</p></div><div class="heading-actions"><span id="archive-status" role="status">伺服器存檔待同步</span><span id="save-status" role="status">正在載入…</span><button id="new-project" class="primary">＋ 新建項目</button><button id="open-archives">活動存檔</button><button id="export" class="primary">預覽海報</button></div></section>
+    <div class="notice editor-only">活動資料與圖片自動儲存，確認版本另行存檔並記錄登入帳號。發布前請核對商品、價格、日期、門店及條款；門店 POS 價格尚未自動同步。</div>
+    <section class="card step-guide editor-only" aria-label="海報製作步驟">
+      <nav id="step-nav" aria-label="步驟導航"></nav>
+      <div class="step-detail"><div><h2 id="step-title"></h2><p id="step-hint"></p><div id="step-issues" role="status"></div></div><div class="step-buttons"><button id="previous-step">上一步</button><button id="next-step" class="primary">下一步</button></div></div>
+      
+
+    </section>
+    <section id="final-output" class="card" hidden><div class="output-controls"><h2>最終海報預覽</h2><p id="output-size"></p><p id="output-status" role="status">點擊生成，檢查最後的海報效果。</p><section class="checks"><div class="panel-heading"><h3>發布前檢查</h3><button id="run-checks" class="text-button">重新檢查</button></div><div id="check-results"></div></section>      <label>確認人（目前登入帳號）<input id="confirmed-by" maxlength="80" readonly></label><label id="review-confirmation" hidden><input id="review-confirmed" type="checkbox" aria-describedby="review-help"> 我已核對商品、價格、日期、門店及條款，確認並存檔</label><p id="review-help" class="hint" role="status"></p><div id="workflow-review" class="workflow-review" hidden><p id="workflow-review-status" class="hint" role="status"></p><div class="wf-review-actions"><button id="submit-for-review" class="primary">提交市場部確認（附上此海報預覽）</button><button id="confirm-poster" class="primary" hidden>確認海報</button></div></div><button id="generate-poster" class="primary">生成海報預覽</button><button id="download-poster" disabled>下載此張 PNG</button><button id="download-pdf" disabled>下載此張 PDF</button><button id="edit-poster">返回逐項核對商品</button></div><div class="output-image"><img id="final-image" alt="生成的最終海報預覽" hidden><p id="preview-placeholder">海報預覽將顯示在這裡</p></div></section>
+    <!-- 原第 1 步「活動資料」已併入加商品上方的設定區。採購任務（.is-task）隱藏活動資料與 Excel 匯入，活動資料唯讀顯示在編輯列。 -->
+    <details id="task-setup" class="card task-setup editor-only" hidden><summary id="task-setup-title">活動資料、底圖與尺寸</summary><div id="task-setup-body">
+      <div class="notice"><strong id="current-project-label"></strong><span>　選模板只更換目前項目的底圖。</span><button id="new-project-setup">＋ 建立新的海報</button></div>
+      <section class="activity card"><label>活動名稱<input id="campaign-name" maxlength="60" placeholder="例如：十月會員優惠"></label><label>開始日期<input id="start-date" type="date"></label><label>結束日期<input id="end-date" type="date"></label><label>適用門店<input id="stores" maxlength="80" placeholder="例如：指定門店（待確認）"></label><div class="version"><span id="workflow-status" class="status">草稿</span><small id="version">版本 1</small></div></section>
+      <section class="card excel-import"><div><strong>從活動 Excel 開始</strong><p>填寫 code（商品編號）可從伺服器商品庫查詢名稱與圖片並產生海報草稿；多張圖片請選擇。</p></div><label class="button primary" for="campaign-upload">上傳 Excel / CSV</label><a class="button" href="/api/campaign-template" download="campaign-template.xlsx">下載 Excel 模板</a><input id="campaign-upload" class="file-input" type="file" accept=".xlsx,.csv"><details><summary>查看表格欄位</summary><p>首行欄位：活動名稱、code（POS 商品編號，例如 BD-101643；也可用「商品編號」作欄名）、商品名稱（填 code 時可留空）、code2（選填第二件商品編號，兩張圖片放在同一組）、規格（選填）、優惠總價、優惠件數、開始日期、結束日期、適用門店。日期格式 YYYY-MM-DD；總價不填平均單價。選填：原價、原價上限、原價刪除線（是／否）、平均價取整（整元／一位小數／兩位小數）、促銷角標（新／熱賣／精選）。</p><p>一行一件商品，目前一張海報最多 12 件；同一檔案需為同一活動、日期及門店。多工作表時請將目標工作表命名為「活動商品」。公式請先貼上數值。會員／積分等額外條件尚需另外核對。</p></details><div id="import-progress" role="status"></div></section>
+      <div id="tab-templates" class="template-picker card"><label>從底圖索引選擇<select id="background-select" aria-label="底圖下拉選擇"></select></label><p class="hint">切換底圖會保留已加入的商品，可繼續調整位置。</p><button class="template-card" data-template="retail"><img src="assets/retail/header.png" alt="至優價品牌標題"><strong>至優價 · 3＋3＋4</strong><small>分區商品卡 · 組合價格 · 品牌頭尾鎖定</small></button><button class="template-card" data-template="clean"><span class="clean-preview">友好 Buy<span>感謝祭</span><i>商品自由編排</i></span><strong>清爽促銷版</strong><small>無歷史促銷條款 · 建議優先使用</small></button><button class="template-card" data-template="membership"><img src="output/evaluation/membership-background-v1.png" alt="綠色會員海報底圖"><strong>會員八格版 · 樣例</strong><small>含歷史條款，使用前請核對條款</small></button><button class="template-card" data-template="promotion"><img src="output/evaluation/promotion-background-v1.png" alt="紅色促銷海報底圖"><strong>感謝祭自由版 · 樣例</strong><small>含歷史條款，使用前請核對條款</small></button><div class="background-upload-entry"><div><strong>上傳底圖或舊海報</strong><p class="hint">PDF 最多 30 MB，可選頁；PNG / JPG / WebP 最多 12 MB。上傳即建立新活動並保存目前項目，不帶入舊畫布商品。先填寫活動名稱、日期及門店，再在下方添加、提取或替換商品，無須再次新建。</p><p id="pdf-upload-status" role="status"></p></div><label class="button primary" for="background-upload">＋ 上傳底圖並新建（圖片／PDF）</label><input id="background-upload" class="file-input" type="file" accept="application/pdf,.pdf,image/png,image/jpeg,image/webp"></div><div class="background-upload-entry"><div><strong>全自動換商品</strong><p class="hint">上傳舊海報 PDF 和活動表，按左上到右下的順序把舊商品換成活動表商品，沿用舊海報的文字位置與字型；名稱、規格、價格只取自活動表。產生後建立新項目，可再用 AI 校對。</p></div><button id="open-poster-auto" class="primary">全自動換商品（舊海報＋活動表）</button></div></div>
+      <section class="card size-settings"><h2>海報尺寸</h2><label>常用尺寸<select id="page-preset"><option value="legacy">原版 1800 × 2560</option><option value="a4">A4</option><option value="a3">A3</option><option value="shop">門店 435 × 620 mm</option><option value="square">方形 1080 × 1080</option><option value="story">手機 1080 × 1920</option><option value="wide">橫版 1920 × 1080</option><option value="custom">自訂</option></select></label><div class="property-grid"><label>寬<input id="page-width" type="number" value="1800" min="1"></label><label>高<input id="page-height" type="number" value="2560" min="1"></label><label>單位<select id="page-unit"><option value="px">像素 px</option><option value="mm">毫米 mm</option></select></label><label>輸出解析度 DPI<input id="page-dpi" type="number" value="150" min="72" max="600"></label></div><button id="apply-size" class="primary">套用尺寸</button><p class="hint">切換尺寸只調整畫布與底圖；商品、文字保持原位置及大小，需要時可點自動排列。PNG 使用 RGB，不包含印刷出血。</p></section>
+      <section id="retail-settings" class="card" hidden><h2>至優價版式</h2><div class="property-grid"><label>每行商品數<input id="retail-rows" value="3,3,4" placeholder="3,3,4"></label><label>各行高度比例<input id="retail-heights" value="1,1,0.85" placeholder="1,1,0.85"></label></div><label>底部活動說明<textarea id="retail-terms" maxlength="300" rows="2"></textarea></label><button id="load-retail-demo">載入樣稿商品示例</button><p class="hint">示例價格取自提供的 PDF，僅供排版測試；載入將替換畫布商品，請重新填寫本次活動資料。</p><button id="apply-retail-layout">套用分行布局</button><p class="hint">品牌標題及 Logo 鎖定。日期、門店與活動說明採用本次資料。套用布局會重新排列未鎖定的商品；可撤銷。</p></section>
+    </div></details>
+    <section class="studio" hidden>
+      <aside class="card library"><div class="panel-heading"><h2>素材與模板</h2><span class="count" id="product-count">0</span></div>
+        <div class="tabs" role="tablist"><button class="active" data-tab="products" role="tab" aria-selected="true">商品</button><button data-tab="text" role="tab" aria-selected="false">文字定位</button></div>
+        <div id="tab-products" class="tab-body"><label>從商品索引選擇<select id="product-select" aria-label="商品素材下拉選擇"></select></label><button id="resume-cutout" style="width:100%;margin-top:8px">查看抠圖任務 / 恢復結果</button><button id="add-selected-product" class="primary" style="width:100%;margin:10px 0">＋ 加入所選商品</button><label class="upload-zone" for="product-upload"><span class="upload-icon">＋</span><strong>上傳商品圖片</strong><small>PNG / JPG / WebP · 每張最多 12 MB</small><small>可一次選擇多張，透明底圖片效果更佳</small></label><input id="product-upload" class="file-input" type="file" accept="image/png,image/jpeg,image/webp" multiple><details class="file-index"><summary>進階：按名稱配圖與索引</summary><div class="index-title"><strong>按商品名稱自動配圖</strong><span id="index-count">0 已索引</span></div><label for="lookup-name">商品名稱 / SKU / 別名</label><div class="lookup-row"><input id="lookup-name" placeholder="例如：秋田小町米" maxlength="100"><button id="lookup" class="primary">配圖</button></div><p class="hint">完整名稱唯一匹配時自動加入；多圖或部分匹配需選擇。編輯索引可為數字檔名補充商品名稱。</p><div id="lookup-results" aria-live="polite"></div></details><label class="search-label"><input id="product-search" type="search" placeholder="搜尋名稱、SKU、別名或檔名" aria-label="搜尋商品"></label><div id="product-list" class="product-list"></div></div>
+        <div id="tab-text" class="tab-body" hidden><input id="text-search" type="search" placeholder="搜尋商品名、規格、價格或文字" aria-label="搜尋海報文字"><p class="hint">點擊結果即可定位到畫布上的文字；商品價格在右側資料欄修改。</p><div id="text-results"></div></div>
+      </aside>
+      <section class="card editor"><div class="editor-add-tools" aria-label="添加海報內容"><strong>添加內容</strong><button id="add-text" class="primary">＋ 添加文字</button><button id="add-icon" class="primary">＋ 國旗／標識</button></div><section id="pdf-import-summary" class="checks" hidden><h3>PDF 自動重建</h3><p id="pdf-import-status" role="status"></p><button id="pdf-original">對照原 PDF 頁面</button></section><div class="canvas-toolbar"><div><strong>海報畫布</strong><span class="canvas-size">900 × 1280 px</span><small id="engine-status">正在載入編輯器…</small></div><div class="toolbar-actions"><button id="undo-edit" disabled>撤銷</button><button id="redo-edit" disabled>重做</button><button id="edit-background" aria-expanded="false">調整海報尺寸</button><button id="auto-layout">自動排列</button><button id="batch-cutout" hidden title="把畫布上未抠圖的商品圖逐件抠成透明底，不必逐件確認">一鍵抠圖</button><button id="repair-image-text">整理圖文間距</button><button id="ai-review-canvas">AI 校對成品</button><button id="delete-selected" class="danger" disabled>刪除所選</button><button id="merge-selected" disabled>合併所選商品</button></div></div><div class="arrange-toolbar"><label><input id="show-grid" type="checkbox" checked>輔助網格</label><select id="grid-density" aria-label="網格密度"><option value="10">疏網格</option><option value="20" selected>標準網格</option><option value="40">密網格</option></select><small>網格不會匯出</small><label><input id="snap-enabled" type="checkbox" checked>吸附對齊</label><select id="align-action"><option value="left">左對齊</option><option value="center">水平居中</option><option value="right">右對齊</option><option value="top">頂部對齊</option><option value="bottom">底部對齊</option><option value="spaceX">水平等距</option><option value="spaceY">垂直等距</option></select><button id="align-selection">對齊所選</button><small>框選或 Shift 多選商品；鎖定元素不會移動。</small></div><div class="poster-view-controls"><label>整張海報顯示縮放 <input id="poster-zoom" type="range" min="40" max="180" value="100"></label><output id="poster-zoom-value">100%</output><button id="poster-zoom-reset">還原顯示</button><small>底圖、商品、文字一起縮放，不改變輸出尺寸。</small></div><div id="background-tools" hidden><strong>調整整張海報（黃色畫布）</strong><label>寬<input id="edit-page-width" type="number" min="1"></label><label>高<input id="edit-page-height" type="number" min="1"></label><label>單位<select id="edit-page-unit"><option value="px">px</option><option value="mm">mm</option></select></label><label>DPI<input id="edit-page-dpi" type="number" min="72" max="600"></label><button id="apply-canvas-size" class="primary">套用畫布尺寸</button><button id="fit-page-background">按底圖比例適配</button><label><input id="lock-page-ratio" type="checkbox" checked>拖曳時保持比例</label><span>可拖曳整張黃色畫布右下角；底圖隨畫布適配；商品和文字保持原位置及大小。會改變匯出尺寸。</span></div><div class="canvas-stage"><div id="poster-surface"><canvas id="poster" width="900" height="1280" tabindex="0" aria-label="可拖動商品與文字的海報編輯畫布"></canvas><div id="poster-grid" aria-hidden="true"></div><button id="resize-page" hidden aria-label="拖曳調整整張海報尺寸">↘</button><output id="resize-size" hidden></output><div id="resize-outline" hidden></div></div></div><div class="canvas-footer"><span>拖動選中元素 · 右側調整大小及前後層級</span><span id="element-count">0 個元素</span></div></section>
+      <aside class="card inspector"><div class="panel-heading"><h2>編輯與檢查</h2><button id="deselect" class="text-button">取消選取</button></div><div id="properties"></div><section class="added-products"><h3>海報上的商品</h3><div id="step-products"></div></section></aside>
+    </section>
+    <details class="advanced-workflow card editor-only"><summary>校對流程與修改記錄</summary><section class="workflow"><h3>校對流程</h3><p class="hint">任何內容修改會撤回至草稿，需重新提交。校對確認不等於門店價格已同步。</p><div class="workflow-buttons"><button id="submit" class="primary">提交校對</button><button id="approve">確認校對</button><button id="return-draft">退回草稿</button></div><div id="history" class="history"></div></section></details>
+    <footer class="page-footer editor-only"><span>素材來源：本機上傳 <span class="dot">·</span> 商品 API 尚未接入</span><div><button id="backup">匯出專案備份</button><label class="button" for="restore">匯入備份</label><input id="restore" class="file-input" type="file" accept="application/json,.json"></div></footer>
+    </div>
+  </main><div id="toast" class="toast" role="status" hidden></div>
+
+  <aside id="wf-drawer" class="wf-drawer" hidden aria-label="海報任務詳情">
+    <div class="wf-drawer-head"><div><small id="d-code"></small><h2 id="d-name"></h2></div><button id="d-close" type="button" aria-label="關閉">×</button></div>
+    <div class="wf-drawer-body">
+      <div class="wf-detail-top">
+        <button id="d-poster" class="wf-poster-large" type="button" title="查看大圖"></button>
+        <dl class="wf-facts" id="d-facts"></dl>
+      </div>
+      <ol class="wf-steps-large" id="d-steps"></ol>
+      <section class="wf-act" id="d-act"></section>
+      <section><h3>活動表</h3><p id="d-sheet" class="hint"></p></section>
+      <section><h3>處理記錄</h3><ol class="wf-timeline" id="d-events"></ol></section>
+    </div>
+  </aside>
+  <dialog id="wf-new-dialog" class="wf-dialog">
+    <form method="dialog" id="wf-new-form">
+      <div class="panel-heading"><h2>上傳海報商品 Excel</h2><button type="button" data-close aria-label="關閉">×</button></div>
+      <p class="hint">上傳活動表（Excel／CSV，最多 30 件商品）。活動名稱、日期及門店會從活動表讀取；提交後由市場部製作及核對，可在任務列表查看進度及已生成的海報。<a href="/api/campaign-template">下載活動表範本</a></p>
+      <label>活動表<input type="file" name="sheet" accept=".xlsx,.csv" required></label>
+      <div class="property-grid"><label>重要性<select name="priority"><option value="high">高（1天內完成）</option><option value="normal" selected>中（3天內完成）</option><option value="low">低（7天內完成）</option></select></label>
+      <label>希望完成日期<input type="date" name="due"></label></div>
+      <label>備註（給市場部）<textarea name="note" rows="3" maxlength="500" placeholder="例如：需加「新」標籤、跟上期同一底圖"></textarea></label>
+      <p class="wf-error" role="alert"></p>
+      <div class="property-buttons"><button type="button" data-close>取消</button><button class="primary" type="submit">提交</button></div>
+    </form>
+  </dialog>
+  <dialog id="wf-sheet-dialog" class="wf-dialog">
+    <form method="dialog" id="wf-sheet-form">
+      <div class="panel-heading"><h2>重新提交活動表</h2><button type="button" data-close aria-label="關閉">×</button></div>
+      <label>修正後的活動表<input type="file" name="sheet" accept=".xlsx,.csv" required></label>
+      <label>修改說明<textarea name="note" rows="3" maxlength="500" placeholder="例如：已補回規格、改正價格"></textarea></label>
+      <p class="wf-error" role="alert"></p>
+      <div class="property-buttons"><button type="button" data-close>取消</button><button class="primary" type="submit">重新提交</button></div>
+    </form>
+  </dialog>
+  <dialog id="wf-summary-dialog" class="wf-dialog"><div class="panel-heading"><h2>總結</h2><button type="button" data-close aria-label="關閉">×</button></div><div id="wf-summary-body"></div></dialog>
+  <dialog id="wf-access-dialog" class="wf-dialog">
+    <div class="panel-heading"><h2>權限對應</h2><button type="button" data-close aria-label="關閉">×</button></div>
+    <p class="hint">登入時用內聯網帳號換取 JWT，再讀取 content_permissions。採購可提交活動表；市場部可製作、美化、核對並確認海報；只讀只能查看。預設代碼是 poster_purchaser、poster_marketing、poster_viewer、poster_admin。內聯網若用別的代碼，在此加入；未配對的帳號會列在下方。</p>
+    <form id="wf-grant-form" class="property-grid"><label>權限代碼<input name="code" required maxlength="80" placeholder="例如 mkt_poster" autocomplete="off"></label><label>對應角色<select name="role"><option value="purchaser">採購（提交活動表）</option><option value="marketing">市場部（製作及確認）</option><option value="viewer">只讀</option><option value="admin">管理員</option></select></label><button class="primary" type="submit">加入對應</button></form>
+    <div id="wf-access-body"></div>
+  </dialog>
+  <dialog id="wf-lightbox" class="wf-lightbox"><button type="button" data-close aria-label="關閉">×</button><a data-edit class="wf-btn wf-blue" hidden>進入編輯</a><img alt="海報預覽"></dialog>
+  <div id="wf-toast" class="toast" hidden role="status"></div>
+  <dialog id="new-project-dialog"><form id="new-project-form"><div class="panel-heading"><h2>新建海報項目</h2><button id="close-new-project" type="button">×</button></div><p class="hint">目前項目會先存入「活動存檔」。新項目不帶入舊商品價格、日期或門店。</p><label>新項目名稱<input id="new-project-name" maxlength="100" required placeholder="例如：11 月至優價活動"></label><label>模板<select id="new-project-template"><option value="clean">清爽促銷版</option><option value="retail">至優價 · 3＋3＋4</option><option value="membership">會員八格版（歷史底圖）</option><option value="promotion">感謝祭版（歷史底圖）</option></select></label><label><input id="new-project-keep-assets" type="checkbox" checked>保留素材庫，方便重新選商品（不加入畫布）</label><p id="new-project-status" role="status"></p><button id="create-new-project" class="primary" type="submit">儲存目前項目並新建</button></form></dialog>
+  <dialog id="index-dialog"><form id="index-form"><div class="panel-heading"><h2>編輯商品圖片索引</h2><button id="close-index" type="button" aria-label="關閉">×</button></div><p id="index-filename" class="hint"></p><input id="index-id" type="hidden"><label>商品名稱<input id="index-name" required maxlength="100" placeholder="例如：秋田小町米"></label><label>商品編號 / SKU<input id="index-sku" maxlength="80"></label><label>搜尋別名（每行一個）<textarea id="index-aliases" rows="4" placeholder="秋田米&#10;Akita Komachi Rice"></textarea></label><p class="hint">同名的正面、側面、背面圖會列為候選，不會隨機選圖。修改索引不會改動已放入海報的文字及圖片。</p><button type="submit" class="primary">儲存索引</button></form></dialog>
+  <dialog id="cutout-dialog"><div class="panel-heading"><h2>自動抠圖 · 效果確認</h2><button id="close-cutout">×</button></div><p class="hint">檢查透明包裝邊緣與包裝文字。保存為新素材，保留原圖；不自動替換已審批海報。</p><p id="cutout-status" role="status"></p><div class="cutout-compare"><figure><img id="cutout-original" alt="原始商品圖"><figcaption>原圖</figcaption></figure><figure><img id="cutout-result" alt="透明底抠圖結果"><figcaption>抠圖結果</figcaption></figure></div><button id="save-cutout" class="primary">確認並存為新素材</button></dialog>
+  <dialog id="campaign-dialog"><div class="panel-heading"><h2>確認活動資料與商品圖片</h2><button id="close-campaign">×</button></div><div id="campaign-problems"></div><div class="import-table-wrap"><table class="import-table"><thead><tr><th>行</th><th>商品及規格</th><th>優惠總價 / 件數</th><th>關聯商品圖片</th></tr></thead><tbody id="campaign-rows"></tbody></table></div><p class="hint">價格從表格帶入。請確認圖片與規格一致；不會略過缺圖或多門店差異。套用會替換目前畫布，請先備份。</p><button id="apply-campaign" class="primary" disabled>確認匹配並生成草稿</button></dialog>
+  <dialog id="ai-review-dialog"><div class="panel-heading"><h2>AI 校對成品</h2><button id="close-ai-review">關閉</button></div><div id="ai-review-result" role="status"></div></dialog><dialog id="archive-dialog"><div class="panel-heading"><h2>活動存檔</h2><button id="close-archives" aria-label="關閉">×</button></div><p class="hint">活動資料、圖片及確認海報保存在伺服器。每個活動只保留一份最新存檔，自動更新；修改後需重新確認。</p><p id="archive-load-status" role="status"></p><div id="archive-list"></div><button id="more-archives" hidden>載入更多活動</button><section id="archive-detail" hidden><h3 id="archive-detail-title"></h3><p id="archive-detail-info"></p><img id="archive-poster" alt="此版本已保存的海報" hidden><div class="property-buttons"><button id="archive-json">下載完整資料及圖片備份</button><button id="archive-png" hidden>下載已存海報</button><button id="archive-restore">繼續編輯</button><button id="archive-delete-version" class="danger" hidden>刪除此版本</button><button id="archive-delete" class="danger">刪除此活動</button></div></section></dialog>
+  <dialog id="icon-dialog"><div class="panel-heading"><h2>國旗與標識素材</h2><button id="close-icons" aria-label="關閉標識素材">×</button></div><p class="hint">可上傳國旗、品牌 Logo 或促銷標識；上傳後直接加入海報，保留原圖比例，也可重用。PNG / JPG / WebP，每張最多 12 MB；建議使用透明底 PNG。</p><div class="property-buttons"><label class="button primary" for="icon-upload">上傳國旗／標識圖片</label><input id="icon-upload" class="file-input" type="file" accept="image/png,image/jpeg,image/webp" multiple><button id="add-text-icon">新增文字標識</button></div><div id="icon-library"></div></dialog>
+  <script type="module" src="src/session.js"></script>
+<dialog id="pdf-original-dialog"><div class="panel-heading"><h2>原 PDF 頁面（核對用）</h2><button id="close-pdf-original">關閉</button></div><img id="pdf-original-image" alt="原 PDF 頁面" style="max-width:100%;height:auto"></dialog></body></html>
